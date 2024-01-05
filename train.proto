@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+//package mytrain;
+option go_package = "train-ticketing/train";
+
+service TrainService {
+    rpc PurchaseTicket(TicketRequest) returns (TicketReceipt);
+    rpc ViewReceipt(UserRequest) returns (TicketReceipt);
+    rpc ViewSeatsBySection(SectionRequest) returns (SeatList);
+    rpc RemoveUser(UserRequest) returns (Empty);
+    rpc ModifySeat(SeatModificationRequest) returns (Empty);
+}
+
+message User {
+    string firstName = 1;
+    string lastName = 2;
+    string email = 3;
+    // ... (other user-related fields if needed)
+}
+
+message TicketRequest {
+    string from = 1;
+    string to = 2;
+    User user = 3;
+}
+message TicketReceipt {
+    string from = 1;
+    string to = 2;
+    User user = 3;
+    float pricePaid = 4;
+    string seat = 5;
+}
+
+message SectionRequest {
+    string section = 1;
+}
+
+message SeatList {
+    repeated UserSeat userSeats = 1;
+}
+
+message UserSeat {
+    User user = 1;
+    string seat = 2;
+}
+message UserRequest {
+    User user = 1;
+}
+
+message Empty{}
+
+message SeatModificationRequest {
+    User user = 1;
+    string newSeat = 2;
+}
+
+
