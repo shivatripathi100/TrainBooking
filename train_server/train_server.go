@@ -38,6 +38,8 @@ func (s *trainServer) PurchaseTicket(ctx context.Context, req *train.TicketReque
 	if req == nil || req.From == "" || req.To == "" || req.User == nil || req.User.FirstName == "" || req.User.LastName == "" || req.User.Email == "" || req.Price <= 0 {
 		return nil, status.Errorf(codes.InvalidArgument, "Invalid ticket purchase request")
 	}
+	
+        price := float32(20.0)
 
 	ticketID := generateUniqueTicketID()
 
