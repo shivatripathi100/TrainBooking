@@ -5,45 +5,40 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/yourusername/yourproject/protos" // Import your generated protobuf package
+	"github.com/trainbooking/train_grpc/train"
 	"google.golang.org/grpc"
 )
 
 func main() {
-	// Set up a gRPC connection to the server
+
 	conn, err := grpc.Dial("localhost:5500", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("Failed to dial server: %v", err)
 	}
 	defer conn.Close()
 
-	// Create a client instance using the connection
-	client := protos.NewTrainServiceClient(conn)
+	client := train.NewTrainServiceClient(conn)
 
-	// Use client methods to interact with the gRPC server
-	// Implement functions to call gRPC methods defined in the service
-	// For example:
 	purchaseTicket(client)
 	viewReceipt(client)
 	viewSeatsBySection(client)
 	removeUser(client)
 	modifySeat(client)
+	mustEmbedUnimplementedTrainServiceServer()
 
 }
 
-func purchaseTicket(client protos.TrainServiceClient) {
-	// Implement logic to call the PurchaseTicket gRPC method
-	// Use client.PurchaseTicket(context, request) to make the call
-	resp, err := client.PurchaseTicket(context.Background(), &protos.TicketRequest{
+func purchaseTicket(client train.TrainServiceClient) {
+
+	resp, err := client.PurchaseTicket(context.Background(), &train.TicketRequest{
 		From:  "Source",
 		To:    "Destination",
 		Price: 100,
-		User: &protos.User{
-			UserId:     "user123",
-			FirstName:  "John",
-			LastName:   "Doe",
-			Email:      "john@example.com",
-			Additional: "Additional info",
+		User: &train.User{
+			UserId:    "user123",
+			FirstName: "John",
+			LastName:  "Doe",
+			Email:     "john@example.com",
 		},
 	})
 	if err != nil {
@@ -52,10 +47,9 @@ func purchaseTicket(client protos.TrainServiceClient) {
 	fmt.Println("PurchaseTicket response:", resp)
 }
 
-func viewReceipt(client protos.TrainServiceClient) {
-	// Implement logic to call the ViewReceipt gRPC method
-	// Use client.ViewReceipt(context, request) to make the call
-	resp, err := client.ViewReceipt(context.Background(), &protos.UserRequest{
+func viewReceipt(client train.TrainServiceClient) {
+
+	resp, err := client.ViewReceipt(context.Background(), &train.UserRequest{
 		UserId: "user123",
 	})
 	if err != nil {
@@ -64,10 +58,10 @@ func viewReceipt(client protos.TrainServiceClient) {
 	fmt.Println("ViewReceipt response:", resp)
 }
 
-func viewSeatsBySection(client protos.TrainServiceClient) {
-	// Implement logic to call the ViewSeatsBySection gRPC method
-	resp, err := client.ViewSeatsBySection(context.Background(), &protos.SectionRequest{
-		Section: "YourSectionName", // Replace with the section name you want to query
+func viewSeatsBySection(client train.TrainServiceClient) {
+
+	resp, err := client.ViewSeatsBySection(context.Background(), &train.SectionRequest{
+		Section: "YourSectionName",
 	})
 	if err != nil {
 		log.Fatalf("ViewSeatsBySection failed: %v", err)
@@ -75,11 +69,11 @@ func viewSeatsBySection(client protos.TrainServiceClient) {
 	fmt.Println("ViewSeatsBySection response:", resp)
 }
 
-func removeUser(client protos.TrainServiceClient) {
-	// Implement logic to call the RemoveUser gRPC method
-	resp, err := client.RemoveUser(context.Background(), &protos.UserRequest{
-		User: &protos.User{
-			UserId: "user123", // Replace with the user ID you want to remove
+func removeUser(client train.TrainServiceClient) {
+
+	resp, err := client.RemoveUser(context.Background(), &train.UserRequest{
+		User: &train.User{
+			UserId: "user123",
 		},
 	})
 	if err != nil {
@@ -88,16 +82,20 @@ func removeUser(client protos.TrainServiceClient) {
 	fmt.Println("RemoveUser response:", resp)
 }
 
-func modifySeat(client protos.TrainServiceClient) {
-	// Implement logic to call the ModifySeat gRPC method
-	resp, err := client.ModifySeat(context.Background(), &protos.SeatModificationRequest{
-		User: &protos.User{
-			UserId: "user123", // Replace with the user ID you want to modify the seat for
+func modifySeat(client train.TrainServiceClient) {
+
+	resp, err := client.ModifySeat(context.Background(), &train.SeatModificationRequest{
+		User: &train.User{
+			UserId: "user123",
 		},
-		NewSeat: "NewSeatNumber", // Replace with the new seat number
+		NewSeat: "NewSeatNumber",
 	})
 	if err != nil {
 		log.Fatalf("ModifySeat failed: %v", err)
 	}
 	fmt.Println("ModifySeat response:", resp)
+}
+
+func mustEmbedUnimplementedTrainServiceServer() {
+
 }
