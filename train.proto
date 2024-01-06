@@ -15,12 +15,15 @@ message User {
     string firstName = 1;
     string lastName = 2;
     string email = 3;
+    string UserId = 4;
+    // ... (other user-related fields if needed)protoc
 }
 
 message TicketRequest {
     string from = 1;
     string to = 2;
     User user = 3;
+    float price = 4;
 }
 message TicketReceipt {
     string from = 1;
@@ -28,6 +31,7 @@ message TicketReceipt {
     User user = 3;
     float pricePaid = 4;
     string seat = 5;
+    string id = 6;
 }
 
 message SectionRequest {
@@ -44,6 +48,8 @@ message UserSeat {
 }
 message UserRequest {
     User user = 1;
+    string UserId = 2;
+
 }
 
 message Empty{}
@@ -51,6 +57,7 @@ message Empty{}
 message SeatModificationRequest {
     User user = 1;
     string newSeat = 2;
+    string UserId = 3;
 }
 
 
