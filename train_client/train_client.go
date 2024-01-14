@@ -36,9 +36,9 @@ func purchaseTicket(client train.TrainServiceClient) {
 		Price: 20,
 		User: &train.User{
 			UserId:    "user123",
-			FirstName: "John",
-			LastName:  "Doe",
-			Email:     "john@example.com",
+			FirstName: "Shiva",
+			LastName:  "Tripathi",
+			Email:     "Shiva@example.com",
 		},
 	})
 	if err != nil {
