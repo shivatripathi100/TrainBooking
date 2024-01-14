@@ -33,7 +33,7 @@ func purchaseTicket(client train.TrainServiceClient) {
 	resp, err := client.PurchaseTicket(context.Background(), &train.TicketRequest{
 		From:  "Source",
 		To:    "Destination",
-		Price: 100,
+		Price: 20,
 		User: &train.User{
 			UserId:    "user123",
 			FirstName: "John",
